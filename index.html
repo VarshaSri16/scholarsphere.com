@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scholar Sphere – Academic Writing & Research Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1208;
+      --parchment: #fdf6e3;
+      --cream: #f5ead2;
+      --gold: #b8882a;
+      --gold-light: #d4a93e;
+      --forest: #1e3a2f;
+      --forest-mid: #2d5440;
+      --white: #fffef9;
+      --red: #c0392b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: var(--parchment);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(30,58,47,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,136,42,0.3);
+    }
+
+    .nav-brand { display: flex; align-items: center; gap: 0.7rem; }
+
+    .nav-brand-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+
+    .nav-brand-text {
+      font-family: 'Cinzel', serif; font-size: 1rem;
+      letter-spacing: 0.12em; color: var(--gold-light);
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      font-family: 'Cinzel', serif; font-size: 0.72rem;
+      letter-spacing: 0.15em; color: rgba(253,246,227,0.75);
+      text-decoration: none; text-transform: uppercase; transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold-light); }
+
+    .nav-cta {
+      font-family: 'Cinzel', serif; font-size: 0.68rem;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      background: var(--gold); color: var(--forest);
+      padding: 0.6rem 1.4rem; text-decoration: none; transition: background 0.3s;
+    }
+
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; background: var(--forest);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 8rem 2rem 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-orb-1 {
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,136,42,0.1) 0%, transparent 70%);
+      top: -150px; right: -100px; pointer-events: none;
+    }
+
+    .hero-orb-2 {
+      position: absolute; width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,124,89,0.18) 0%, transparent 70%);
+      bottom: -100px; left: -50px; pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid rgba(184,136,42,0.4); padding: 0.45rem 1.2rem;
+      font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.3em;
+      color: var(--gold); text-transform: uppercase; margin-bottom: 2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300; line-height: 1.05; color: var(--parchment);
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .hero-title em { font-style: italic; color: var(--gold-light); }
+
+    .hero-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 2rem auto; animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem); font-style: italic;
+      color: rgba(253,246,227,0.65); max-width: 580px; line-height: 1.75;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+
+    .hero-cta-group {
+      display: flex; gap: 1rem; margin-top: 2.8rem;
+      justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--gold); color: var(--forest);
+      font-family: 'Cinzel', serif; font-size: 0.72rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; padding: 0.95rem 2.2rem; border: none; cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: transparent; color: var(--parchment);
+      font-family: 'Cinzel', serif; font-size: 0.72rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; padding: 0.95rem 2.2rem;
+      border: 1px solid rgba(253,246,227,0.3); cursor: pointer;
+      transition: border-color 0.3s, color 0.3s, transform 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 3.5rem; margin-top: 4rem;
+      animation: fadeUp 0.8s 0.75s ease both;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600; color: var(--gold-light); line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.2em;
+      color: rgba(253,246,227,0.4); text-transform: uppercase; margin-top: 0.3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white); padding: 8rem 5rem;
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 6rem; align-items: start;
+    }
+
+    .about-left { position: sticky; top: 8rem; }
+
+    .section-label {
+      font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.35em;
+      color: var(--gold); text-transform: uppercase; margin-bottom: 1rem;
+    }
+
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300; line-height: 1.15; color: var(--forest);
+    }
+
+    .section-heading em { font-style: italic; color: var(--gold); }
+
+    .gold-rule { width: 60px; height: 2px; background: var(--gold); margin-top: 1.5rem; }
+
+    .about-body p {
+      font-size: 1.1rem; line-height: 1.85; color: #3a3020; margin-bottom: 1.5rem;
+    }
+
+    .about-body p:first-child::first-letter {
+      font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 600;
+      float: left; line-height: 0.8; margin: 0.1em 0.1em 0 0; color: var(--forest);
+    }
+
+    .about-highlight {
+      background: var(--cream); border-left: 3px solid var(--gold);
+      padding: 1.5rem 2rem; margin: 2rem 0;
+      font-size: 1.15rem; font-style: italic; color: var(--forest-mid); line-height: 1.7;
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      background: var(--forest); padding: 7rem 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    #services::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b8882a' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .services-header { text-align: center; margin-bottom: 4.5rem; }
+    .services-header .section-heading { color: var(--parchment); }
+    .services-header p {
+      color: rgba(253,246,227,0.55); font-size: 1.05rem; font-style: italic;
+      margin-top: 1rem; max-width: 520px; margin-left: auto; margin-right: auto;
+    }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(184,136,42,0.12); position: relative; z-index: 1;
+    }
+
+    .service-card {
+      background: rgba(18,42,32,0.95); padding: 2.5rem 2rem;
+      display: flex; flex-direction: column; gap: 0.8rem;
+      transition: background 0.35s, transform 0.3s; cursor: default;
+    }
+
+    .service-card:hover { background: rgba(184,136,42,0.1); transform: translateY(-3px); }
+
+    .service-icon-wrap {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: rgba(184,136,42,0.12); border: 1px solid rgba(184,136,42,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 0.4rem;
+    }
+
+    .service-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600;
+      color: var(--parchment); line-height: 1.25;
+    }
+
+    .service-desc { font-size: 0.9rem; color: rgba(253,246,227,0.5); line-height: 1.65; flex: 1; }
+
+    .service-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em;
+      color: var(--gold); text-transform: uppercase; text-decoration: none;
+      margin-top: 0.5rem; transition: gap 0.2s; cursor: pointer; background: none; border: none;
+    }
+
+    .service-link:hover { gap: 0.8rem; }
+
+    /* ── ENQUIRY FORM ── */
+    #enquiry {
+      background: var(--cream); padding: 7rem 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    #enquiry::before {
+      content: '?';
+      position: absolute; font-family: 'Cormorant Garamond', serif;
+      font-size: 40rem; font-weight: 700;
+      color: rgba(30,58,47,0.04);
+      top: -8rem; right: -3rem; line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+
+    .enquiry-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: start;
+    }
+
+    .enquiry-left { position: sticky; top: 8rem; }
+
+    .enquiry-left p {
+      font-size: 1.05rem; color: rgba(26,18,8,0.6); line-height: 1.8; margin-top: 1.2rem;
+    }
+
+    .enquiry-note {
+      margin-top: 2rem; padding: 1.2rem 1.5rem;
+      background: var(--white); border-left: 3px solid var(--gold);
+      font-size: 0.9rem; font-style: italic; color: var(--forest-mid); line-height: 1.6;
+    }
+
+    /* FORM STYLES */
+    .enquiry-form { display: flex; flex-direction: column; gap: 1.4rem; }
+
+    .form-required-note {
+      font-size: 0.88rem; font-style: italic; color: var(--red);
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.45rem; }
+
+    .form-label {
+      font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.1em;
+      color: var(--forest); text-transform: uppercase;
+    }
+
+    .form-label span { color: var(--red); margin-left: 2px; }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 0.85rem 1rem;
+      font-family: 'EB Garamond', serif; font-size: 1rem;
+      color: var(--ink); background: var(--white);
+      border: 1px solid rgba(30,58,47,0.2); outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      appearance: none; -webkit-appearance: none;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,136,42,0.12);
+    }
+
+    .form-select-wrap { position: relative; }
+
+    .form-select-wrap::after {
+      content: '▾'; position: absolute; right: 1rem; top: 50%;
+      transform: translateY(-50%); color: var(--gold); pointer-events: none;
+      font-size: 0.85rem;
+    }
+
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+    .form-submit {
+      display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+      width: 100%; padding: 1.1rem;
+      background: var(--forest); color: var(--parchment);
+      font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; border: none; cursor: pointer;
+      transition: background 0.3s, transform 0.2s; margin-top: 0.5rem;
+    }
+
+    .form-submit:hover { background: var(--forest-mid); transform: translateY(-2px); }
+
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Success / Error messages */
+    .form-message {
+      display: none; padding: 1.2rem 1.5rem;
+      font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em;
+      text-align: center; border: 1px solid;
+    }
+
+    .form-message.success {
+      display: block; background: #f0faf3; color: #2e7d4f; border-color: #a8d5b5;
+    }
+
+    .form-message.error {
+      display: block; background: #fdf0f0; color: var(--red); border-color: #f5b8b8;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--forest); padding: 5rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+
+    .contact-strip {
+      display: flex; align-items: center; justify-content: center;
+      gap: 3rem; flex-wrap: wrap;
+    }
+
+    .contact-strip-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 300;
+      color: var(--parchment); line-height: 1.2;
+    }
+
+    .contact-strip-text em { font-style: italic; color: var(--gold-light); }
+
+    .contact-email-link {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      background: rgba(184,136,42,0.15); border: 1px solid rgba(184,136,42,0.3);
+      padding: 1rem 2rem; text-decoration: none;
+      font-family: 'Cinzel', serif; font-size: 0.72rem;
+      letter-spacing: 0.15em; color: var(--gold-light); text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .contact-email-link:hover { background: rgba(184,136,42,0.25); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); padding: 3rem 5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+
+    .footer-brand { display: flex; align-items: center; gap: 0.6rem; }
+
+    .footer-brand-icon {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+    }
+
+    .footer-brand-name {
+      font-family: 'Cinzel', serif; font-size: 0.85rem;
+      letter-spacing: 0.18em; color: var(--gold);
+    }
+
+    .footer-copy { font-size: 0.82rem; color: rgba(253,246,227,0.28); font-style: italic; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+    .reveal-delay-7 { transition-delay: 0.7s; }
+    .reveal-delay-8 { transition-delay: 0.8s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .enquiry-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .enquiry-left { position: static; }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #about { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 2rem; }
+      .about-left { position: static; }
+      #services { padding: 5rem 2rem; }
+      #enquiry { padding: 5rem 2rem; }
+      #contact { padding: 4rem 2rem; }
+      footer { padding: 2rem; flex-direction: column; text-align: center; }
+      .hero-stats { gap: 2rem; }
+      .contact-strip { flex-direction: column; gap: 1.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-brand-icon">🎓</div>
+      <span class="nav-brand-text">Scholar Sphere</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#enquiry">Enquire</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#enquiry" class="nav-cta">📋 Enquire Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-orb-1"></div>
+    <div class="hero-orb-2"></div>
+
+    <div class="hero-badge">🎓 PhD-Level Academic Expertise</div>
+
+    <h1 class="hero-title">Scholar<br><em>Sphere</em></h1>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-sub">
+      Professional academic writing, research assistance &amp; expert proofreading —<br>
+      delivered with scholarly precision and complete confidentiality.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="#enquiry" class="btn-primary">📋 &nbsp;Enquire Now</a>
+      <a href="#services" class="btn-outline">View Services →</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">PhD</div>
+        <div class="stat-label">Qualified</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">9+</div>
+        <div class="stat-label">Services</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Confidential</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-left reveal">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-heading">Scholarly<br><em>Expertise</em><br>You Can Trust</h2>
+      <div class="gold-rule"></div>
+    </div>
+
+    <div class="about-body">
+      <p class="reveal">
+        Scholar Sphere is a specialised academic writing consultancy led by a highly qualified PhD scholar with deep expertise in research writing across disciplines. We bring academic rigour, meticulous research skills, and scholarly precision to every project we undertake.
+      </p>
+      <blockquote class="about-highlight reveal reveal-delay-1">
+        "Every great dissertation begins with a clear voice and a disciplined mind. Our role is to help you find both."
+      </blockquote>
+      <p class="reveal reveal-delay-2">
+        Whether you are a postgraduate student navigating your first research paper, a doctoral candidate crafting your thesis, or a professional seeking polished academic prose — we offer personalised, confidential, and high-quality assistance tailored to your unique needs and deadlines.
+      </p>
+      <p class="reveal reveal-delay-3">
+        Our approach combines meticulous attention to language with deep respect for your original ideas. We do not just correct — we elevate your work to meet the highest academic standards expected by universities and peer-reviewed journals alike.
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header reveal">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-heading" style="color:var(--parchment)">Our Academic <em style="color:var(--gold-light)">Services</em></h2>
+      <p>Comprehensive scholarly support — from the very first draft to the final submission.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon-wrap">🎓</div>
+        <div class="service-title">Admission Proposal Writing Assistance</div>
+        <p class="service-desc">Compelling, well-structured admission proposals crafted to present your academic goals and qualifications persuasively.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon-wrap">📋</div>
+        <div class="service-title">Synopsis Writing Assistance</div>
+        <p class="service-desc">Precise and well-argued research synopses that clearly define your study's objectives, methodology, and scholarly contributions.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon-wrap">🏛️</div>
+        <div class="service-title">Thesis Writing Assistance</div>
+        <p class="service-desc">Expert guidance in formulating your research question, developing your argument, and presenting findings with academic authority.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon-wrap">📖</div>
+        <div class="service-title">Dissertation Writing Assistance</div>
+        <p class="service-desc">Full chapter-by-chapter support — literature review, methodology, analysis, and conclusion — tailored to your university's requirements.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-4">
+        <div class="service-icon-wrap">📝</div>
+        <div class="service-title">Papers Writing Assistance</div>
+        <p class="service-desc">Original, properly cited, and journal-ready academic papers crafted to the standards of your field, from concept to complete manuscript.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-5">
+        <div class="service-icon-wrap">🔬</div>
+        <div class="service-title">Systematic Review Papers Assistance</div>
+        <p class="service-desc">Rigorous systematic reviews following PRISMA guidelines — comprehensive literature searches, critical appraisal, and evidence synthesis.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-6">
+        <div class="service-icon-wrap">📊</div>
+        <div class="service-title">Bibliometric Review Papers Assistance</div>
+        <p class="service-desc">Data-driven bibliometric analyses to map research trends, identify key contributors, and visualise the intellectual structure of a field.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-7">
+        <div class="service-icon-wrap">🎤</div>
+        <div class="service-title">Conference Papers Assistance</div>
+        <p class="service-desc">Well-crafted papers for national and international academic conferences, meeting disciplinary norms and presentation standards.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+
+      <div class="service-card reveal reveal-delay-8">
+        <div class="service-icon-wrap">✍️</div>
+        <div class="service-title">Publication Support &amp; Manuscript Assistance</div>
+        <p class="service-desc">End-to-end support — manuscript preparation, journal selection, formatting, cover letters, and revision responses.</p>
+        <button class="service-link" onclick="document.getElementById('enquiry').scrollIntoView({behavior:'smooth'})">Enquire Now →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENQUIRY FORM -->
+  <section id="enquiry">
+    <div class="enquiry-inner">
+
+      <div class="enquiry-left reveal">
+        <div class="section-label">Enquire Now</div>
+        <h2 class="section-heading">Tell Us Your <em>Requirements</em></h2>
+        <div class="gold-rule"></div>
+        <p>Fill in the form and we will get back to you with a personalised plan for your academic project.</p>
+        <div class="enquiry-note">
+          ✉ All submissions are sent directly to <strong>scholarsphere1234@gmail.com</strong> and handled with complete confidentiality.
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <p class="form-required-note">* Indicates required field</p>
+
+        <!-- IMPORTANT: Replace YOUR_FORM_ID below with your Formspree ID after signing up at formspree.io -->
+        <form
+          class="enquiry-form"
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          method="POST"
+          id="enquiryForm"
+        >
+
+          <!-- Hidden redirect after success -->
+          <input type="hidden" name="_subject" value="New Enquiry – Scholar Sphere" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="name">Your Name <span>*</span></label>
+              <input class="form-input" type="text" id="name" name="name" placeholder="Full name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mobile">Mobile Number <span>*</span></label>
+              <input class="form-input" type="tel" id="mobile" name="mobile" placeholder="+91 XXXXX XXXXX" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email ID <span>*</span></label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phd_stage">When Did You Register in PhD? <span>*</span></label>
+            <div class="form-select-wrap">
+              <select class="form-select" id="phd_stage" name="phd_stage" required>
+                <option value="" disabled selected>Select your stage</option>
+                <option>Just Registered in PhD</option>
+                <option>1st Year</option>
+                <option>2nd Year</option>
+                <option>3rd Year or Above</option>
+                <option>Post-PhD / Independent Researcher</option>
+                <option>Not a PhD Student</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="service">Desired Service <span>*</span></label>
+            <div class="form-select-wrap">
+              <select class="form-select" id="service" name="desired_service" required>
+                <option value="" disabled selected>Select a service</option>
+                <option>Admission Proposal Writing Assistance</option>
+                <option>Synopsis Writing Assistance</option>
+                <option>Thesis Writing Assistance</option>
+                <option>Dissertation Writing Assistance</option>
+                <option>Papers Writing Assistance</option>
+                <option>Systematic Review Papers Assistance</option>
+                <option>Bibliometric Review Papers Assistance</option>
+                <option>Conference Papers Assistance</option>
+                <option>Publication Support &amp; Manuscript Assistance</option>
+                <option>Other / Not Sure</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="research_area">Broad Area of Research <span>*</span></label>
+            <input class="form-input" type="text" id="research_area" name="research_area" placeholder="e.g. Commerce, Science, Arts, Engineering…" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="requirements">Requirement Details <span>*</span></label>
+            <textarea class="form-textarea" id="requirements" name="requirement_details" placeholder="Please describe your project, topic, deadline, or any specific needs…" required></textarea>
+          </div>
+
+          <div id="formMessage" class="form-message"></div>
+
+          <button type="submit" class="form-submit" id="submitBtn">
+            📨 &nbsp; Submit Enquiry
+          </button>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT STRIP -->
+  <section id="contact">
+    <div class="contact-strip reveal">
+      <div class="contact-strip-text">
+        Prefer to <em>email directly?</em>
+      </div>
+      <a href="mailto:scholarsphere1234@gmail.com" class="contact-email-link">
+        ✉ &nbsp; scholarsphere1234@gmail.com
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-brand-icon">🎓</div>
+      <span class="footer-brand-name">Scholar Sphere</span>
+    </div>
+    <div class="footer-copy">Academic Writing &amp; Research Consultancy · All Rights Reserved</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Form submission via Formspree (AJAX)
+    const form = document.getElementById('enquiryForm');
+    const msgBox = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      msgBox.className = 'form-message';
+      msgBox.style.display = 'none';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          msgBox.className = 'form-message success';
+          msgBox.textContent = '✅ Thank you! Your enquiry has been submitted. We will get back to you shortly.';
+          form.reset();
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        msgBox.className = 'form-message error';
+        msgBox.textContent = '⚠️ Submission failed. Please email us directly at scholarsphere1234@gmail.com';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '📨 &nbsp; Submit Enquiry';
+    });
+  </script>
+
+</body>
+</html>
